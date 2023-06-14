@@ -64,12 +64,21 @@ def clonar_carpeta(url):
             # Obtener el localhosts
             localhost = "127.0.0.1"
             linea_hosts = f"{localhost} {url}"
+            print(linea_hosts)
+
+            hosts_line.configure(state='normal')
+
+            hosts_line.delete(0, tk.END)
+            hosts_line.insert(0, linea_hosts)
+
+            entry_ubicacion.configure(state='readonly')
+
 
             texto_hosts = 'este sera el texto del hosts'
 
             hosts = 'este sera'
 
-            actualizar_campo(hosts)
+            #actualizar_campo(hosts)
 
             
             # try:
@@ -88,6 +97,12 @@ def actualizar_campo(campo_texto):
     mi_variable.set(campo_texto)
     hosts_line.delete(1.0, tk.END)  # Borrar el contenido actual del campo
     hosts_line.insert(tk.END, mi_variable.get())
+
+def copy_to_clipboard():
+    text = hosts_line.get()
+    ventana.clipboard_clear()
+    ventana.clipboard_append(text)
+    messagebox.showinfo("Copiado", "Texto copiado al portapapeles.")
 
 # Crear la ventana principal
 ventana = tk.Tk()
@@ -122,6 +137,9 @@ def seleccionar_carpeta():
         entry_ubicacion.insert(0, ubicacion)
         entry_ubicacion.configure(state='readonly')
 
+
+
+
 # Crear el botón para seleccionar la carpeta original
 button_seleccionar_carpeta = tk.Button(ventana, text="Seleccionar Carpeta", command=seleccionar_carpeta)
 button_seleccionar_carpeta.pack(pady=5)
@@ -135,43 +153,34 @@ color_secundario_var = tk.StringVar()
 color_btn_var = tk.StringVar()
 color_hover_var = tk.StringVar()
 
-def seleccionar_color(var):
-    color = colorchooser.askcolor()[1]
-    var.set(color)
 
 label_color_principal = tk.Label(ventana, text="Color Principal:")
 label_color_principal.pack()
-entry_color_principal = tk.Entry(ventana, textvariable=color_principal_var, state='readonly')
+entry_color_principal = tk.Entry(ventana, textvariable=color_principal_var)
 entry_color_principal.pack(pady=5)
-button_seleccionar_color_principal = tk.Button(ventana, text="Seleccionar Color", command=lambda: seleccionar_color(color_principal_var))
-button_seleccionar_color_principal.pack()
 
 label_color_secundario = tk.Label(ventana, text="Color Secundario:")
 label_color_secundario.pack()
-entry_color_secundario = tk.Entry(ventana, textvariable=color_secundario_var, state='readonly')
+entry_color_secundario = tk.Entry(ventana, textvariable=color_secundario_var)
 entry_color_secundario.pack(pady=5)
-button_seleccionar_color_secundario = tk.Button(ventana, text="Seleccionar Color", command=lambda: seleccionar_color(color_secundario_var))
-button_seleccionar_color_secundario.pack()
 
 label_color_btn = tk.Label(ventana, text="Color del Botón:")
 label_color_btn.pack()
-entry_color_btn = tk.Entry(ventana, textvariable=color_btn_var, state='readonly')
+entry_color_btn = tk.Entry(ventana, textvariable=color_btn_var)
 entry_color_btn.pack(pady=5)
-button_seleccionar_color_btn = tk.Button(ventana, text="Seleccionar Color", command=lambda: seleccionar_color(color_btn_var))
-button_seleccionar_color_btn.pack()
 
 label_color_hover = tk.Label(ventana, text="Color Hover:")
 label_color_hover.pack()
-entry_color_hover = tk.Entry(ventana, textvariable=color_hover_var, state='readonly')
+entry_color_hover = tk.Entry(ventana, textvariable=color_hover_var)
 entry_color_hover.pack(pady=5)
-button_seleccionar_color_hover = tk.Button(ventana, text="Seleccionar Color", command=lambda: seleccionar_color(color_hover_var))
-button_seleccionar_color_hover.pack()
 
 #texto linea host
 hosts_line_label = tk.Label(ventana, text="texto hosts:")
 hosts_line_label.pack()
 hosts_line = tk.Entry(ventana, state='readonly')
 hosts_line.pack(pady=5)
+button = tk.Button(ventana, text="Copiar", command=copy_to_clipboard)
+button.pack(pady=10)
 
 # Crear el botón de clonar
 button_clonar = tk.Button(ventana, text="Clonar", command=verificar_url)
