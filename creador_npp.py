@@ -4,9 +4,6 @@ import os
 import shutil
 import re
 
-# Estilo minimalista
-# style = ttk.Style()
-
 def clonar_carpeta(url):
     nombre_carpeta = url.lower().replace(".", "_")
 
@@ -26,7 +23,6 @@ def clonar_carpeta(url):
     ruta_destino = os.path.join(directorio_clonado, nombre_carpeta)
 
     try:
-        print("entro al try")
         shutil.copytree(ruta_original, ruta_destino)
         messagebox.showinfo("Carpeta Clonada", f"Se ha clonado la carpeta en: {ruta_destino}")
 
@@ -58,7 +54,6 @@ def clonar_carpeta(url):
             # Obtener el localhosts
             localhost = "127.0.0.1"
             linea_hosts = f"{localhost} {url}"
-            print(linea_hosts)
 
             hosts_line.configure(state='normal')
 
@@ -161,7 +156,7 @@ def select_logo():
 # Crear la ventana principal
 ventana = tk.Tk()
 ventana.title("Clonar Carpeta")
-ventana.geometry("400x580")
+ventana.geometry("400x780")
 
 style = ttk.Style()
 
@@ -169,8 +164,9 @@ ventana.configure(bg='#2e292e')
 style.configure("TButton",
                 background="#674d69",
                 foreground="#000000",
-                font=("Helvetica", 12),
-                padding=6,)
+                font=("Helvetica", 10),
+                padding=3,
+                )
 style.configure("TLabel",
                 background="#2e292e",
                 foreground="white",
@@ -185,25 +181,24 @@ style.configure("TEntry",
 entry_url_label = ttk.Label(ventana, text="Url nuevo:")
 entry_url_label.pack(padx=0, pady=10)
 entry_url = ttk.Entry(ventana, width=50)
-entry_url.insert(0, "Escribir URL")  # Texto de marcador de posición
 entry_url.pack(pady=5)
 entry_url.bind("<Button-1>", borrar_placeholder_url)
 
 # Crear el campo de entrada para la ubicación de la carpeta original
 label_ubicacion = ttk.Label(ventana, text="Carpeta Original:")
 label_ubicacion.pack(padx=0, pady=10)
-entry_ubicacion = ttk.Entry(ventana, width=50, state='readonly')
+entry_ubicacion = tk.Entry(ventana, width=50)
 entry_ubicacion.pack(pady=5)
+entry_ubicacion.configure(bg='#2e292e')
 
 # Crear el botón para seleccionar la carpeta original
-button_seleccionar_carpeta = ttk.Button(ventana, text="Seleccionar Carpeta", command=seleccionar_carpeta)
+button_seleccionar_carpeta = ttk.Button(ventana, text="Seleccionar Carpeta", command=seleccionar_carpeta,style="TButton", width=42)
 button_seleccionar_carpeta.pack(pady=5)
 
 color_principal_var = tk.StringVar()
 color_secundario_var = tk.StringVar()
 color_btn_var = tk.StringVar()
 color_hover_var = tk.StringVar()
-
 
 label_color_principal = ttk.Label(ventana, text="Color Principal:")
 label_color_principal.pack(padx=0, pady=10)
@@ -225,21 +220,25 @@ label_color_hover.pack(padx=0, pady=10)
 entry_color_hover = ttk.Entry(ventana, textvariable=color_hover_var,width=50)
 entry_color_hover.pack(pady=5)
 
-label_logo_path = ttk.Entry(ventana, state='readonly')
+label_label_logo = ttk.Label(ventana, text="Logo en png:")
+label_label_logo.pack(padx=0, pady=10)
+label_logo_path = tk.Entry(ventana, width=50)
 label_logo_path.pack(padx=0, pady=10)
-button_logo = ttk.Button(ventana, text="Logo", command=select_logo)
+button_logo = ttk.Button(ventana, text="Logo", command=select_logo,style="TButton", width=42)
 button_logo.pack(pady=10)
+label_logo_path.configure(bg='#2e292e')
 
 #texto linea host
 hosts_line_label = ttk.Label(ventana, text="texto hosts:")
 hosts_line_label.pack(padx=0, pady=10)
-hosts_line = ttk.Entry(ventana, state='readonly')
+hosts_line = tk.Entry(ventana, width=50)
+hosts_line.configure(bg='#2e292e')
 hosts_line.pack(pady=5)
-button = ttk.Button(ventana, text="Copiar", command=copy_to_clipboard)
+button = ttk.Button(ventana, text="Copiar", command=copy_to_clipboard,style="TButton", width=42)
 button.pack(pady=10)
 
 # Crear el botón de clonar
-button_clonar = ttk.Button(ventana, text="Clonar", command=verificar_url, style="TButton")
+button_clonar = ttk.Button(ventana, text="Clonar", command=verificar_url, style="TButton", width=42)
 button_clonar.pack(pady=10)
 
 
