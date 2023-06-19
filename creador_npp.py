@@ -5,9 +5,6 @@ import shutil
 import re
 import webbrowser
 
-# Estilo minimalista
-# style = ttk.Style()
-
 def clonar_carpeta(url):
     nombre_carpeta = url.lower().replace(".", "_")
 
@@ -27,7 +24,6 @@ def clonar_carpeta(url):
     ruta_destino = os.path.join(directorio_clonado, nombre_carpeta)
 
     try:
-        print("entro al try")
         shutil.copytree(ruta_original, ruta_destino)
         messagebox.showinfo("Carpeta Clonada", f"Se ha clonado la carpeta en: {ruta_destino}")
 
@@ -59,7 +55,6 @@ def clonar_carpeta(url):
             # Obtener el localhosts
             localhost = "127.0.0.1"
             linea_hosts = f"{localhost} {url}"
-            print(linea_hosts)
 
             hosts_line.configure(state='normal')
 
@@ -164,7 +159,7 @@ def select_logo():
 # Crear la ventana principal
 ventana = tk.Tk()
 ventana.title("Clonar Carpeta")
-ventana.geometry("400x750")
+ventana.geometry("400x780")
 
 style = ttk.Style()
 
@@ -188,7 +183,6 @@ style.configure("TEntry",
 entry_url_label = ttk.Label(ventana, text="Url nuevo:")
 entry_url_label.pack(padx=0, pady=10)
 entry_url = ttk.Entry(ventana, width=50)
-entry_url.insert(0, "Escribir URL")  # Texto de marcador de posición
 entry_url.pack(pady=5)
 entry_url.bind("<Button-1>", borrar_placeholder_url)
 
@@ -196,8 +190,8 @@ entry_url.bind("<Button-1>", borrar_placeholder_url)
 label_ubicacion = ttk.Label(ventana, text="Carpeta Original:")
 label_ubicacion.pack(padx=0, pady=10)
 entry_ubicacion = tk.Entry(ventana, width=50)
-entry_ubicacion.configure(bg='#2e292e')
 entry_ubicacion.pack(pady=5)
+entry_ubicacion.configure(bg='#2e292e')
 
 # Crear el botón para seleccionar la carpeta original
 button_seleccionar_carpeta = ttk.Button(ventana, text="Seleccionar Carpeta", command=seleccionar_carpeta, style="TButton", width=42)
@@ -207,7 +201,6 @@ color_principal_var = tk.StringVar()
 color_secundario_var = tk.StringVar()
 color_btn_var = tk.StringVar()
 color_hover_var = tk.StringVar()
-
 
 label_color_principal = ttk.Label(ventana, text="Color Principal:")
 label_color_principal.pack(padx=0, pady=10)
@@ -234,6 +227,7 @@ label_logo_path.configure(bg='#2e292e')
 label_logo_path.pack(padx=0, pady=10)
 button_logo = ttk.Button(ventana, text="Logo", command=select_logo, style="TButton", width=42)
 button_logo.pack(pady=10)
+label_logo_path.configure(bg='#2e292e')
 
 #texto linea host
 hosts_line_label = ttk.Label(ventana, text="texto hosts:")
