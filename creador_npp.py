@@ -3,6 +3,7 @@ from tkinter import messagebox, filedialog, ttk
 import os
 import shutil
 import re
+import webbrowser
 
 # Estilo minimalista
 # style = ttk.Style()
@@ -100,9 +101,11 @@ def clonar_carpeta(url):
             # except OSError:
             #     messagebox.showerror("Error", "No se pudo modificar el archivo hosts.")
 
-
     except OSError:
-        messagebox.showerror("Error", "No se pudo clonar la carpeta.")
+        messagebox.showerror("Error", "La carpeta ya existe o los datos estan incorrectos.")
+
+    webbrowser.open_new_tab("http://"+url)
+    webbrowser.open_new_tab("http://"+url + "/creadorperfiles")
 
 def verificar_url():
     url = entry_url.get()
@@ -146,22 +149,22 @@ def select_logo():
     label_logo_path.insert(0, file_path)
     label_logo_path.configure(state='readonly')
 
-    if file_path:
-        try:
-            # Verificar que el archivo seleccionado sea una imagen PNG
-            img = Image.open(file_path)
-            if img.format == "PNG":
-                messagebox.showinfo("Logo Seleccionado", f"Se ha seleccionado el archivo: {file_path}")
-                # Puedes realizar acciones adicionales con la imagen seleccionada aquí
-            else:
-                messagebox.showerror("Formato Incorrecto", "El archivo seleccionado no es un PNG válido.")
-        except Exception as e:
-            messagebox.showerror("Error", f"No se pudo abrir el archivo: {str(e)}")
+    # if file_path:
+    #     try:
+    #         # Verificar que el archivo seleccionado sea una imagen PNG
+    #         img = Image.open(file_path)
+    #         if img.format == "PNG":
+    #             messagebox.showinfo("Logo Seleccionado", f"Se ha seleccionado el archivo: {file_path}")
+    #             # Puedes realizar acciones adicionales con la imagen seleccionada aquí
+    #         else:
+    #             messagebox.showerror("Formato Incorrecto", "El archivo seleccionado no es un PNG válido.")
+    #     except Exception as e:
+    #         messagebox.showerror("Error", f"No se pudo abrir el archivo: {str(e)}")
 
 # Crear la ventana principal
 ventana = tk.Tk()
 ventana.title("Clonar Carpeta")
-ventana.geometry("400x580")
+ventana.geometry("400x750")
 
 style = ttk.Style()
 
@@ -169,8 +172,8 @@ ventana.configure(bg='#2e292e')
 style.configure("TButton",
                 background="#674d69",
                 foreground="#000000",
-                font=("Helvetica", 12),
-                padding=6,)
+                font=("Helvetica", 10),
+                padding=3,)
 style.configure("TLabel",
                 background="#2e292e",
                 foreground="white",
@@ -192,12 +195,13 @@ entry_url.bind("<Button-1>", borrar_placeholder_url)
 # Crear el campo de entrada para la ubicación de la carpeta original
 label_ubicacion = ttk.Label(ventana, text="Carpeta Original:")
 label_ubicacion.pack(padx=0, pady=10)
-entry_ubicacion = ttk.Entry(ventana, width=50, state='readonly')
+entry_ubicacion = tk.Entry(ventana, width=50)
+entry_ubicacion.configure(bg='#2e292e')
 entry_ubicacion.pack(pady=5)
 
 # Crear el botón para seleccionar la carpeta original
-button_seleccionar_carpeta = ttk.Button(ventana, text="Seleccionar Carpeta", command=seleccionar_carpeta)
-button_seleccionar_carpeta.pack(pady=5)
+button_seleccionar_carpeta = ttk.Button(ventana, text="Seleccionar Carpeta", command=seleccionar_carpeta, style="TButton", width=42)
+button_seleccionar_carpeta.pack(pady=3)
 
 color_principal_var = tk.StringVar()
 color_secundario_var = tk.StringVar()
@@ -225,21 +229,22 @@ label_color_hover.pack(padx=0, pady=10)
 entry_color_hover = ttk.Entry(ventana, textvariable=color_hover_var,width=50)
 entry_color_hover.pack(pady=5)
 
-label_logo_path = ttk.Entry(ventana, state='readonly')
+label_logo_path = tk.Entry(ventana, width=50)
+label_logo_path.configure(bg='#2e292e')
 label_logo_path.pack(padx=0, pady=10)
-button_logo = ttk.Button(ventana, text="Logo", command=select_logo)
+button_logo = ttk.Button(ventana, text="Logo", command=select_logo, style="TButton", width=42)
 button_logo.pack(pady=10)
 
 #texto linea host
 hosts_line_label = ttk.Label(ventana, text="texto hosts:")
 hosts_line_label.pack(padx=0, pady=10)
-hosts_line = ttk.Entry(ventana, state='readonly')
+hosts_line = ttk.Entry(ventana, state='readonly', width=50)
 hosts_line.pack(pady=5)
-button = ttk.Button(ventana, text="Copiar", command=copy_to_clipboard)
+button = ttk.Button(ventana, text="Copiar", command=copy_to_clipboard, style="TButton", width=42)
 button.pack(pady=10)
 
 # Crear el botón de clonar
-button_clonar = ttk.Button(ventana, text="Clonar", command=verificar_url, style="TButton")
+button_clonar = ttk.Button(ventana, text="Clonar", command=verificar_url, style="TButton", width=42)
 button_clonar.pack(pady=10)
 
 
